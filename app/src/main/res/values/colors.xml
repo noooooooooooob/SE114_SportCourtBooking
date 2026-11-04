@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Màu mặc định hệ thống -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- BẢNG MÀU CHỦ ĐẠO SMASHFLOW -->
+    <color name="smash_primary">#00B578</color>       <!-- Xanh ngọc nút bấm & link -->
+    <color name="smash_text_title">#111827</color>    <!-- Đen đậm chữ tiêu đề -->
+    <color name="smash_text_sub">#6B7280</color>      <!-- Xám chữ phụ -->
+    <color name="smash_stroke">#E5E7EB</color>        <!-- Viền xám mảnh -->
+    <color name="background">#FAFAFA</color>          <!-- nền nhẹ */ -->
 </resources>
