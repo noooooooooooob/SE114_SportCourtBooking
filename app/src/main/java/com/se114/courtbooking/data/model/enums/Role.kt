@@ -1,4 +1,4 @@
-package com.se114.courtbooking.data.model
+package com.se114.courtbooking.data.model.enums
 
 enum class Role(val displayName: String) {
     CUSTOMER("Khách hàng"),
