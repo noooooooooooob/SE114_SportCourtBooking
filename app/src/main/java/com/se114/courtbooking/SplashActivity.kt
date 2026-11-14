@@ -3,7 +3,7 @@ package com.se114.courtbooking
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.se114.courtbooking.data.model.Role
+import com.se114.courtbooking.data.model.enums.Role
 import com.se114.courtbooking.ui.admin.AdminActivity
 import com.se114.courtbooking.ui.auth.LoginActivity
 import com.se114.courtbooking.utils.SessionManager
