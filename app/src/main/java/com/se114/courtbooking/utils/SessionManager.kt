@@ -4,7 +4,7 @@ import androidx.core.content.edit
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.se114.courtbooking.data.model.Role
+import com.se114.courtbooking.data.model.enums.Role
 
 class SessionManager(context: Context) {
 
