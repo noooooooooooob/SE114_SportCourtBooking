@@ -13,3 +13,12 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Visual Studio workspace cache
+/.vs/
+
+# Local Firebase setup
+/app/google-services.json
+/app/src/*/google-services.json
+/functions/node_modules/
+*-debug.log

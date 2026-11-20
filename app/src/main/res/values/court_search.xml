@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="court_ink">#0C1837</color>
+    <color name="court_muted">#4E6180</color>
+    <color name="court_stroke">#E4ECEE</color>
+    <color name="court_accent">#007A57</color>
+    <color name="court_action">#00875F</color>
+    <color name="court_mint">#E6F7F1</color>
+    <color name="court_background">#FCFDFC</color>
+
+    <style name="Theme.Smash.CourtSearch" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/court_accent</item>
+        <item name="colorOnSurface">@color/court_ink</item>
+        <item name="android:windowBackground">@color/court_background</item>
+    </style>
+
+    <style name="Widget.Smash.CourtPill" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/bg_court_pill</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingHorizontal">9dp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/court_ink</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <string name="smashflow_name">SmashFlow</string>
+    <string name="court_search_title">Tìm sân</string>
+    <string name="court_search_subtitle">Khám phá các sân cầu lông gần bạn</string>
+    <string name="court_search_hint">Nhập tên sân…</string>
+    <string name="court_search_action">Tìm kiếm</string>
+    <string name="court_search_back">Quay lại</string>
+    <string name="court_search_date">Chọn ngày</string>
+    <string name="court_search_optional_date">Ngày chơi</string>
+    <string name="court_search_any_date">Mọi ngày</string>
+    <string name="court_search_district">Khu vực</string>
+    <string name="court_search_all_districts">Tất cả khu vực</string>
+    <string name="court_search_filters">Bộ lọc</string>
+    <string name="court_search_filter_count">Bộ lọc (%1$d)</string>
+    <string name="court_search_sort_title">Sắp xếp theo</string>
+    <string name="court_search_sort_name">Tên sân</string>
+    <string name="court_search_sort_distance">Gần nhất</string>
+    <string name="court_search_sort_price">Giá thấp nhất</string>
+    <string name="court_search_sort_rating">Đánh giá cao</string>
+    <string name="court_search_price_limit">Giá tối đa (đ/giờ)</string>
+    <string name="court_search_rating_limit">Điểm đánh giá tối thiểu</string>
+    <string name="court_search_any_rating">Mọi mức đánh giá</string>
+    <string name="court_search_rating_option">Từ %1$s sao</string>
+    <string name="court_search_apply">Áp dụng</string>
+    <string name="court_search_reset">Đặt lại</string>
+    <string name="court_search_cancel">Hủy</string>
+    <string name="court_search_close">Đóng</string>
+    <string name="court_search_retry">Thử lại</string>
+    <string name="court_search_loading">Đang tải danh sách sân…</string>
+    <string name="court_search_checking_date">Đang kiểm tra lịch trống…</string>
+    <string name="court_search_empty">Không tìm thấy sân phù hợp</string>
+    <string name="court_search_empty_hint">Thử đổi từ khóa, ngày chơi hoặc bộ lọc.</string>
+    <string name="court_search_error">Chưa tải được danh sách sân</string>
+    <string name="court_search_schedule_error">Chưa kiểm tra được lịch trống</string>
+    <string name="court_search_error_hint">Kiểm tra kết nối rồi thử lại.</string>
+    <string name="court_search_location_missing">Chưa lấy được vị trí. Hãy bật vị trí và thử lại.</string>
+    <string name="court_search_location_denied">Cho phép truy cập vị trí để sắp xếp sân gần nhất.</string>
+    <string name="court_search_location_loading">Đang lấy vị trí…</string>
+    <string name="court_search_price">%1$sđ/giờ</string>
+    <string name="court_search_price_unknown">Chưa có giá</string>
+    <string name="court_search_rating">%1$s (%2$s đánh giá)</string>
+    <string name="court_search_rating_short">%1$s (%2$s)</string>
+    <string name="court_search_no_ratings">Chưa có đánh giá</string>
+    <string name="court_search_distance_address">%1$s km • %2$s</string>
+    <string name="court_search_open_hours">Giờ mở cửa %1$s – %2$s</string>
+    <style name="ShapeAppearance.Smash.CourtPhoto" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+</resources>
