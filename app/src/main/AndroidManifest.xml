@@ -45,6 +45,11 @@
             android:name=".ui.auth.RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- 3. Màn hình Lịch đặt của tôi (Quản lý các lượt đặt sân) -->
+        <activity
+            android:name=".ui.booking.MyBookingsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

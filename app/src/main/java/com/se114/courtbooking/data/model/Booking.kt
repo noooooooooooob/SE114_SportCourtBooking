@@ -18,5 +18,6 @@ data class Booking(
     val totalAmount: Double = 160000.0,
     val status: String = "CONFIRMED",
     val paymentStatus: String = "UNPAID",
+    val recurringBookingId: String? = null,
     val createdAt: Timestamp? = null
 )

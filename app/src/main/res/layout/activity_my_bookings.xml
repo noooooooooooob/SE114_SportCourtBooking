@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="36dp">
+
+    <!-- 1. NÚT BACK (<) -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="6dp"
+        android:src="@drawable/ic_back"
+        app:tint="@color/smash_text_title" />
+
+    <!-- 2. TIÊU ĐỀ & PHỤ ĐỀ -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Lịch đặt của tôi"
+        android:textColor="@color/smash_text_title"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Quản lý các lượt đặt sân của bạn"
+        android:textColor="@color/smash_text_sub"
+        android:textSize="14sp" />
+
+    <!-- 3. BỘ LỌC 3 TAB (Sắp tới, Đã hoàn thành, Đã hủy) -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tabUpcoming"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/smash_primary"
+                android:text="Sắp tới"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:cornerRadius="22dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tabCompleted"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginEnd="10dp"
+                android:text="Đã hoàn thành"
+                android:textAllCaps="false"
+                android:textColor="@color/smash_text_sub"
+                android:textSize="13sp"
+                app:cornerRadius="22dp"
+                app:strokeColor="@color/smash_stroke" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tabCancelled"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="Đã hủy"
+                android:textAllCaps="false"
+                android:textColor="@color/smash_text_sub"
+                android:textSize="13sp"
+                app:cornerRadius="22dp"
+                app:strokeColor="@color/smash_stroke" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 4. DANH SÁCH RECYCLERVIEW HIỂN THỊ CÁC THẺ -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBookings"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
+
+    <!-- 5. TRẠNG THÁI RỖNG (Khi chưa có đơn đặt sân nào) -->
+    <LinearLayout
+        android:id="@+id/layoutEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:alpha="0.5"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            app:tint="@color/smash_primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Bạn chưa có lịch đặt nào khác"
+            android:textColor="@color/smash_text_sub"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>
