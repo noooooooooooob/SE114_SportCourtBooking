@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 320dp is the carousel card's maximum width; the adapter shrinks it to fit narrow screens. -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/home_dp_320"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/home_dp_14"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/home_dp_20"
+    app:cardElevation="@dimen/home_dp_3"
+    app:strokeColor="#08E1E6EC"
+    app:strokeWidth="@dimen/home_dp_1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_dp_176">
+
+            <ImageView
+                android:id="@+id/courtPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/home_featured_title"
+                android:scaleType="centerCrop"
+                android:src="@drawable/court_photo_placeholder" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/home_dp_32"
+                android:layout_gravity="top|start"
+                android:layout_margin="@dimen/home_dp_12"
+                android:background="@drawable/bg_home_rating_badge"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/home_dp_9">
+
+                <ImageView
+                    android:layout_width="@dimen/home_dp_17"
+                    android:layout_height="@dimen/home_dp_17"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_court_star"
+                    app:tint="@color/smash_primary" />
+
+                <TextView
+                    android:id="@+id/courtRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/home_dp_4"
+                    android:text="@string/home_demo_rating"
+                    android:textColor="@color/smash_primary"
+                    android:textSize="@dimen/home_sp_14"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/home_dp_14"
+            android:paddingTop="@dimen/home_dp_11"
+            android:paddingEnd="@dimen/home_dp_12"
+            android:paddingBottom="@dimen/home_dp_13">
+
+            <LinearLayout
+                android:layout_width="@dimen/home_dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/courtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/home_ink"
+                    android:textSize="@dimen/home_sp_17"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/courtAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_dp_5"
+                    android:drawableStart="@drawable/ic_court_pin_small"
+                    android:drawablePadding="@dimen/home_dp_5"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="@color/home_muted"
+                    android:textSize="@dimen/home_sp_13" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/courtPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/home_dp_8"
+                android:background="@drawable/bg_home_price"
+                android:paddingHorizontal="@dimen/home_dp_10"
+                android:paddingVertical="@dimen/home_dp_8"
+                android:textColor="@color/smash_primary"
+                android:textSize="@dimen/home_sp_13"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

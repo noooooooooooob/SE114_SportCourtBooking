@@ -10,4 +10,11 @@
     <color name="smash_text_sub">#6B7280</color>      <!-- Xám chữ phụ -->
     <color name="smash_stroke">#E5E7EB</color>        <!-- Viền xám mảnh -->
     <color name="background">#FAFAFA</color>          <!-- nền nhẹ */ -->
+
+    <color name="home_background">#FCFDFC</color>
+    <color name="home_ink">#172235</color>
+    <color name="home_muted">#66748D</color>
+    <color name="home_hint">#8490A5</color>
+    <color name="home_stroke">#E1E6EC</color>
+    <color name="home_mint">#E1F7F1</color>
 </resources>
