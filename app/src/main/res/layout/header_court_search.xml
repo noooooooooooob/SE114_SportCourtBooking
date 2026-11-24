@@ -8,18 +8,6 @@
     android:paddingTop="10dp"
     android:paddingEnd="16dp">
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="4dp"
-        android:background="@drawable/bg_court_pill"
-        android:contentDescription="@string/court_search_back"
-        android:elevation="2dp"
-        android:padding="12dp"
-        app:srcCompat="@drawable/ic_back"
-        app:tint="@color/court_accent" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

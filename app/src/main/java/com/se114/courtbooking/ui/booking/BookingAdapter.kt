@@ -41,18 +41,22 @@ class BookingAdapter(
                 "CONFIRMED" -> {
                     tvStatusBadge.text = "Đã xác nhận"
                     tvStatusBadge.setTextColor(ContextCompat.getColor(context, R.color.smash_primary))
+                    tvStatusBadge.setBackgroundResource(R.drawable.bg_badge_confirmed)
                 }
                 "PENDING" -> {
                     tvStatusBadge.text = "Chờ xác nhận"
                     tvStatusBadge.setTextColor(ContextCompat.getColor(context, android.R.color.holo_orange_dark))
+                    tvStatusBadge.setBackgroundResource(R.drawable.bg_badge_pending)
                 }
                 "CANCELLED" -> {
                     tvStatusBadge.text = "Đã hủy"
                     tvStatusBadge.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_light))
+                    tvStatusBadge.setBackgroundResource(R.drawable.bg_badge_pending)
                 }
                 else -> {
                     tvStatusBadge.text = "Đã hoàn thành"
                     tvStatusBadge.setTextColor(ContextCompat.getColor(context, R.color.smash_text_sub))
+                    tvStatusBadge.setBackgroundResource(R.drawable.bg_badge_confirmed)
                 }
             }
 

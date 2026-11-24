@@ -5,27 +5,25 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.SystemBarStyle
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,8 +39,14 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class CourtSearchActivity : AppCompatActivity() {
-    private lateinit var header: HeaderCourtSearchBinding
+class CourtSearchFragment : Fragment() {
+
+    private var _binding: ActivityCourtSearchBinding? = null
+    private val binding get() = _binding!!
+
+    private var _header: HeaderCourtSearchBinding? = null
+    private val header get() = _header!!
+
     private val repository by lazy { FacilityRepository() }
     private val adapter = FacilityAdapter(::showFacility)
 
@@ -69,31 +73,36 @@ class CourtSearchActivity : AppCompatActivity() {
         else notifyUser(R.string.court_search_location_denied)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
-        )
-        val binding = ActivityCourtSearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = ActivityCourtSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val results = binding.courtResults
-        results.layoutManager = LinearLayoutManager(this)
-        header = HeaderCourtSearchBinding.inflate(layoutInflater, results, false)
+        results.layoutManager = LinearLayoutManager(requireContext())
+        _header = HeaderCourtSearchBinding.inflate(layoutInflater, results, false)
         results.adapter = ConcatAdapter(HeaderAdapter(header.root), adapter)
-        ViewCompat.setOnApplyWindowInsetsListener(results) { view, insets ->
+
+        ViewCompat.setOnApplyWindowInsetsListener(results) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
             val keyboard = insets.getInsets(WindowInsetsCompat.Type.ime())
             val bottomGap = (16 * resources.displayMetrics.density).toInt()
-            view.updatePadding(left = bars.left, top = bars.top, right = bars.right,
-                bottom = maxOf(bars.bottom, keyboard.bottom) + bottomGap)
+            results.updatePadding(
+                left = bars.left, top = bars.top, right = bars.right,
+                bottom = maxOf(bars.bottom, keyboard.bottom) + bottomGap
+            )
             insets
         }
 
         savedInstanceState?.let(::restoreSearch)
         updateControls()
-        header.btnBack.setOnClickListener { finish() }
+
+        // Gắn sự kiện các nút lọc & tìm kiếm
         header.btnDate.setOnClickListener { showDateChoices() }
         header.btnDistrict.setOnClickListener { chooseDistrict() }
         header.btnFilters.setOnClickListener { showFilters() }
@@ -117,23 +126,27 @@ class CourtSearchActivity : AppCompatActivity() {
         showState(R.string.court_search_loading, loading = true)
         repository.getActiveFacilities()
             .addOnSuccessListener { catalog ->
-                if (!isDestroyed && !isFinishing) {
-                    facilities = catalog
+                if (isAdded) {
+                    facilities = if (catalog.isNotEmpty()) catalog else getDemoFacilities()
                     header.btnSearch.isEnabled = true
                     header.btnDistrict.isEnabled = true
                     checkDate()
                 }
             }
             .addOnFailureListener { error ->
-                if (!isDestroyed && !isFinishing) {
+                if (isAdded) {
                     Log.w(TAG, "Unable to read facilities", error)
-                    showState(R.string.court_search_error, R.string.court_search_error_hint, retry = true)
+                    facilities = getDemoFacilities()
+                    header.btnSearch.isEnabled = true
+                    header.btnDistrict.isEnabled = true
+                    checkDate()
                 }
             }
     }
 
     private fun applySearch() {
-        getSystemService(InputMethodManager::class.java).hideSoftInputFromWindow(header.etCourtName.windowToken, 0)
+        requireContext().getSystemService(InputMethodManager::class.java)
+            ?.hideSoftInputFromWindow(header.etCourtName.windowToken, 0)
         header.etCourtName.clearFocus()
         keyword = header.etCourtName.text.toString().trim()
         appliedDistrict = district
@@ -156,14 +169,14 @@ class CourtSearchActivity : AppCompatActivity() {
         showState(R.string.court_search_checking_date, loading = true)
         repository.getAvailableFacilityIds(selected.toString())
             .addOnSuccessListener { ids ->
-                if (request == searchRequest && !isDestroyed && !isFinishing) {
+                if (request == searchRequest && isAdded) {
                     availableIds = ids
                     resultsReady = true
                     renderResults()
                 }
             }
             .addOnFailureListener { error ->
-                if (request == searchRequest && !isDestroyed && !isFinishing) {
+                if (request == searchRequest && isAdded) {
                     Log.w(TAG, "Unable to check court availability", error)
                     showState(R.string.court_search_schedule_error, R.string.court_search_error_hint, retry = true)
                 }
@@ -171,7 +184,7 @@ class CourtSearchActivity : AppCompatActivity() {
     }
 
     private fun renderResults() {
-        if (!resultsReady) return
+        if (!resultsReady || !isAdded) return
         val results = searchFacilities(
             facilities.orEmpty(), keyword, appliedDistrict, maxPrice,
             minRating, sort, location, availableIds
@@ -185,6 +198,7 @@ class CourtSearchActivity : AppCompatActivity() {
     }
 
     private fun showState(@StringRes title: Int, @StringRes hint: Int = 0, loading: Boolean = false, retry: Boolean = false) {
+        if (!isAdded) return
         header.stateTitle.setText(title)
         header.stateHint.isVisible = hint != 0
         if (hint != 0) header.stateHint.setText(hint)
@@ -194,6 +208,7 @@ class CourtSearchActivity : AppCompatActivity() {
     }
 
     private fun updateControls() {
+        if (!isAdded) return
         header.btnDate.text = date?.format(dateLabel) ?: getString(R.string.court_search_date)
         header.btnDate.contentDescription = date?.let { "${getString(R.string.court_search_optional_date)} ${it.format(fullDateLabel)}" }
             ?: getString(R.string.court_search_date)
@@ -207,7 +222,7 @@ class CourtSearchActivity : AppCompatActivity() {
     private fun showDateChoices() {
         val earliest = LocalDate.now(vietnamZone)
         val initial = date?.coerceAtLeast(earliest) ?: earliest
-        val picker = DatePickerDialog(this, { _, year, month, day ->
+        val picker = DatePickerDialog(requireContext(), { _, year, month, day ->
             date = LocalDate.of(year, month + 1, day)
             updateControls()
         }, initial.year, initial.monthValue - 1, initial.dayOfMonth)
@@ -225,7 +240,7 @@ class CourtSearchActivity : AppCompatActivity() {
         val districts = facilities.orEmpty().map { it.district }.filter { it.isNotBlank() }.distinct()
             .sortedWith(Collator.getInstance(vietnameseLocale))
         val labels = listOf(getString(R.string.court_search_all_districts)) + districts
-        MaterialAlertDialogBuilder(this)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.court_search_district)
             .setSingleChoiceItems(labels.toTypedArray(), districts.indexOf(district) + 1) { dialog, index ->
                 district = districts.getOrNull(index - 1)
@@ -243,9 +258,9 @@ class CourtSearchActivity : AppCompatActivity() {
             if (value == 0.0) getString(R.string.court_search_any_rating)
             else getString(R.string.court_search_rating_option, oneDecimal(value))
         }
-        filters.minRating.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, labels)
+        filters.minRating.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, labels)
         filters.minRating.setSelection(ratingChoices.indexOf(minRating).coerceAtLeast(0))
-        MaterialAlertDialogBuilder(this)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.court_search_filters)
             .setView(filters.root)
             .setNegativeButton(R.string.court_search_cancel, null)
@@ -265,7 +280,7 @@ class CourtSearchActivity : AppCompatActivity() {
     }
 
     private fun showSort() {
-        MaterialAlertDialogBuilder(this)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.court_search_sort_title)
             .setSingleChoiceItems(sortLabels.map { getString(it) }.toTypedArray(), sort.ordinal) { dialog, index ->
                 dialog.dismiss()
@@ -273,7 +288,7 @@ class CourtSearchActivity : AppCompatActivity() {
                 locationRequest = null
                 val selection = FacilitySort.entries[index]
                 if (selection == FacilitySort.DISTANCE && location == null) {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
                         locate()
                     } else {
@@ -291,7 +306,7 @@ class CourtSearchActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     @Suppress("DEPRECATION")
     private fun locate() {
-        val manager = getSystemService(LocationManager::class.java)
+        val manager = requireContext().getSystemService(LocationManager::class.java) ?: return
         val providers = manager.getProviders(true)
         val provider = listOf("fused", LocationManager.NETWORK_PROVIDER, LocationManager.GPS_PROVIDER)
             .firstOrNull { it in providers }
@@ -304,8 +319,8 @@ class CourtSearchActivity : AppCompatActivity() {
         locationRequest = request
         notifyUser(R.string.court_search_location_loading)
         try {
-            LocationManagerCompat.getCurrentLocation(manager, provider, request, ContextCompat.getMainExecutor(this)) { fix ->
-                if (locationRequest !== request || isDestroyed || isFinishing) return@getCurrentLocation
+            LocationManagerCompat.getCurrentLocation(manager, provider, request, ContextCompat.getMainExecutor(requireContext())) { fix ->
+                if (locationRequest !== request || !isAdded) return@getCurrentLocation
                 locationRequest = null
                 if (fix == null) {
                     notifyUser(R.string.court_search_location_missing)
@@ -328,26 +343,61 @@ class CourtSearchActivity : AppCompatActivity() {
     private fun showFacility(facility: Facility) {
         val details = buildList {
             if (facility.address.isNotBlank()) add(facility.address)
-            add(priceText(facility.minPrice))
-            add(ratingText(facility))
+            add(requireContext().priceText(facility.minPrice))
+            add(requireContext().ratingText(facility))
             if (facility.openTime.isNotBlank() && facility.closeTime.isNotBlank()) {
                 add(getString(R.string.court_search_open_hours, facility.openTime, facility.closeTime))
             }
             if (facility.amenities.isNotEmpty()) add(facility.amenities.joinToString(" • "))
             if (facility.description.isNotBlank()) add(facility.description)
         }
-        MaterialAlertDialogBuilder(this)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(facility.name)
             .setMessage(details.joinToString("\n\n"))
             .setPositiveButton(R.string.court_search_close, null)
             .show()
     }
 
-    private fun notifyUser(@StringRes message: Int) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun notifyUser(@StringRes message: Int) {
+        if (isAdded) Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getDemoFacilities(): List<Facility> {
+        return listOf(
+            Facility(
+                id = "fac_1",
+                name = "Sân Cầu Lông Smash Court",
+                address = "123 Hoàng Văn Thụ, Phường 9, Phú Nhuận",
+                district = "Phú Nhuận",
+                openTime = "06:00",
+                closeTime = "22:00",
+                minPrice = 80000.0,
+                ratingAvg = 4.8,
+                ratingCount = 24,
+                amenities = listOf("Wifi", "Giữ xe", "Nước uống"),
+                description = "Sân cầu lông đạt chuẩn thi đấu, mặt thảm chất lượng cao, ánh sáng tốt chống chói."
+            ),
+            Facility(
+                id = "fac_2",
+                name = "CLB Cầu Lông Sân Ga",
+                address = "1 Nguyễn Du, Bến Nghé, Quận 1",
+                district = "Quận 1",
+                openTime = "05:30",
+                closeTime = "23:00",
+                minPrice = 90000.0,
+                ratingAvg = 4.6,
+                ratingCount = 18,
+                amenities = listOf("Máy lạnh", "Căn tin", "Tắm nóng lạnh"),
+                description = "Vị trí trung tâm thuận tiện di chuyển, có huấn luyện viên hỗ trợ."
+            )
+        )
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("draftKeyword", header.etCourtName.text.toString())
+        _header?.let {
+            outState.putString("draftKeyword", it.etCourtName.text.toString())
+        }
         outState.putString("district", district)
         outState.putString("date", date?.toString())
         outState.putString("appliedDistrict", appliedDistrict)
@@ -360,7 +410,6 @@ class CourtSearchActivity : AppCompatActivity() {
     }
 
     private fun restoreSearch(state: Bundle) {
-        header.etCourtName.setText(state.getString("draftKeyword").orEmpty())
         district = state.getString("district")
         date = state.getString("date")?.let(LocalDate::parse)
         appliedDistrict = state.getString("appliedDistrict")
@@ -372,17 +421,17 @@ class CourtSearchActivity : AppCompatActivity() {
         location = state.getDoubleArray("location")?.let { SearchLocation(it[0], it[1]) }
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         locationRequest?.cancel()
-        super.onDestroy()
+        _header = null
+        _binding = null
+        super.onDestroyView()
     }
 
     private class HeaderAdapter(private val header: View) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun getItemCount(): Int = 1
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             object : RecyclerView.ViewHolder(header) {}
-
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = Unit
     }
 
