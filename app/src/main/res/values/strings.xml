@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">SE114_SportCourtBooking</string>
+    <string name="home_greeting">Xin chào, Bảo!</string>
+    <string name="home_greeting_subtitle">Chơi cầu lông thôi nào! 🏸</string>
+    <string name="home_notifications">Thông báo</string>
+    <string name="home_search_hint">Tìm sân cầu lông...</string>
+    <string name="home_today">Hôm nay</string>
+    <string name="home_default_district">Quận 1</string>
+    <string name="home_find_courts">Tìm sân</string>
+    <string name="home_featured_title">Sân nổi bật</string>
+    <string name="home_see_more">Xem thêm</string>
+    <string name="home_tab_home">Trang chủ</string>
+    <string name="home_tab_search">Tìm sân</string>
+    <string name="home_tab_bookings">Lịch đặt</string>
+    <string name="home_tab_profile">Cá nhân</string>
+    <string name="home_featured_price">%1$sđ/giờ</string>
+    <string name="home_demo_rating">4.8</string>
+    <string name="home_demo_court_name">SmashBadminton Center</string>
+    <string name="home_demo_court_address">123 Nguyễn Văn A, Quận 1</string>
+    <string name="home_demo_court_name_two">Shuttle Arena</string>
+    <string name="home_demo_court_address_two">45 Lê Văn Sỹ, Quận 3</string>
+    <string name="home_date_picker_title">Chọn ngày chơi</string>
+    <string name="home_district_picker_title">Chọn khu vực</string>
+    <string name="home_placeholder_tab">Màn hình này sẽ được bổ sung sau</string>
 </resources>

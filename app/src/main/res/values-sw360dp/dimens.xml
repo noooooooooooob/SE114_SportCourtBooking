@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Scaled sizes for phones from 360dp to 399dp; units use Android dp/sp scaling. -->
+    <dimen name="home_dp_0">0dp</dimen>
+    <dimen name="home_dp_1">1dp</dimen>
+    <dimen name="home_dp_3">3dp</dimen>
+    <dimen name="home_dp_4">4dp</dimen>
+    <dimen name="home_dp_5">5dp</dimen>
+    <dimen name="home_dp_6">6dp</dimen>
+    <dimen name="home_dp_7">7dp</dimen>
+    <dimen name="home_dp_8">8dp</dimen>
+    <dimen name="home_dp_9">8dp</dimen>
+    <dimen name="home_dp_10">9dp</dimen>
+    <dimen name="home_dp_11">10dp</dimen>
+    <dimen name="home_dp_12">11dp</dimen>
+    <dimen name="home_dp_13">12dp</dimen>
+    <dimen name="home_dp_14">13dp</dimen>
+    <dimen name="home_dp_16">15dp</dimen>
+    <dimen name="home_dp_17">16dp</dimen>
+    <dimen name="home_dp_18">17dp</dimen>
+    <dimen name="home_dp_20">19dp</dimen>
+    <dimen name="home_dp_22">21dp</dimen>
+    <dimen name="home_dp_24">23dp</dimen>
+    <dimen name="home_dp_26">24dp</dimen>
+    <dimen name="home_dp_28">26dp</dimen>
+    <dimen name="home_dp_30">28dp</dimen>
+    <dimen name="home_dp_32">30dp</dimen>
+    <dimen name="home_dp_48">48dp</dimen>
+    <dimen name="home_dp_52">49dp</dimen>
+    <dimen name="home_dp_56">53dp</dimen>
+    <dimen name="home_dp_76">71dp</dimen>
+    <dimen name="home_dp_104">98dp</dimen>
+    <dimen name="home_dp_176">165dp</dimen>
+    <dimen name="home_dp_320">301dp</dimen>
+    <dimen name="home_dp_344">323dp</dimen>
+    <dimen name="home_sp_12">11sp</dimen>
+    <dimen name="home_sp_13">12sp</dimen>
+    <dimen name="home_sp_14">13sp</dimen>
+    <dimen name="home_sp_15">14sp</dimen>
+    <dimen name="home_sp_16">15sp</dimen>
+    <dimen name="home_sp_17">16sp</dimen>
+    <dimen name="home_sp_20">19sp</dimen>
+    <dimen name="home_sp_28">26sp</dimen>
+</resources>
