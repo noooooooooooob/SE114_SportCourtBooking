@@ -1,4 +1,4 @@
-package com.se114.courtbooking
+package com.se114.courtbooking.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +18,7 @@ internal data class HomeFeaturedCourt(
 )
 
 internal class HomeFeaturedCourtAdapter :
-    ListAdapter<HomeFeaturedCourt, HomeFeaturedCourtAdapter.CourtHolder>(Diff) {
+    androidx.recyclerview.widget.ListAdapter<HomeFeaturedCourt, HomeFeaturedCourtAdapter.CourtHolder>(Diff) {
 
     private var adaptiveCardWidthPx = 0
     private val widthListener = View.OnLayoutChangeListener { view, _, _, _, _, _, _, _, _ ->
@@ -38,9 +38,9 @@ internal class HomeFeaturedCourtAdapter :
 
     /** Uses the screen-width card size and leaves a small next-card peek in the carousel. */
     private fun resizeCards(recyclerView: RecyclerView) {
-        val maxWidth = recyclerView.resources.getDimensionPixelSize(R.dimen.home_dp_320)
+        val maxWidth = recyclerView.resources.getDimensionPixelSize(_root_ide_package_.com.se114.courtbooking.R.dimen.home_dp_320)
         // The adaptive spacing scales with the card dimensions selected for this screen width.
-        val trailingSpace = recyclerView.resources.getDimensionPixelSize(R.dimen.home_dp_22)
+        val trailingSpace = recyclerView.resources.getDimensionPixelSize(_root_ide_package_.com.se114.courtbooking.R.dimen.home_dp_22)
         val nextWidth = minOf(maxWidth, recyclerView.width - trailingSpace).coerceAtLeast(1)
         if (adaptiveCardWidthPx == nextWidth) return
 
@@ -76,7 +76,7 @@ internal class HomeFeaturedCourtAdapter :
             binding.courtAddress.text = court.address
             binding.courtRating.text = court.rating
             binding.courtPrice.text = binding.root.context.getString(
-                R.string.home_featured_price,
+                _root_ide_package_.com.se114.courtbooking.R.string.home_featured_price,
                 court.price
             )
             Glide.with(binding.courtPhoto)
